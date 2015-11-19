@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <sys/stat.h>
+#include "InfInt.h"
 
 using namespace std;
 
@@ -190,38 +191,38 @@ void readInitialSeq(char* seq, int v, string fileName)
 	//TODO: Implement
 }
 
-//InfInt countTotal(int V, int kp, int km)
-//{
-//
-//	int kz = V - km - kp;
-//	int max = 0, rest1 = 0, rest2= 0;
-//	if (kp > max) {
-//		max = kp;
-//		rest1 = km;
-//		rest2 = kz;
-//	}
-//	if (km > max) {
-//		max = km;
-//		rest1 = kp;
-//		rest2 = kz;
-//	}
-//	if (kz > max) {
-//		max = kz;
-//		rest1 = kp;
-//		rest2 = km;
-//	}
-//	InfInt res = 1;
-//	for (int c = max + 1; c <= V; c++){
-//		res *= c;
-//	}
-//	for (int c = 1; c <= rest1; c++) {
-//		res /= c;
-//	}
-//	for (int c = 1; c <= rest2; c++) {
-//		res /= c;
-//	}
-//	return res;
-//}
+unsigned long long int countTotal(int V, int kp, int km)
+{
+
+	int kz = V - km - kp;
+	int max = 0, rest1 = 0, rest2= 0;
+	if (kp > max) {
+		max = kp;
+		rest1 = km;
+		rest2 = kz;
+	}
+	if (km > max) {
+		max = km;
+		rest1 = kp;
+		rest2 = kz;
+	}
+	if (kz > max) {
+		max = kz;
+		rest1 = kp;
+		rest2 = km;
+	}
+	InfInt res = 1;
+	for (int c = max + 1; c <= V; c++){
+		res *= c;
+	}
+	for (int c = 1; c <= rest1; c++) {
+		res /= c;
+	}
+	for (int c = 1; c <= rest2; c++) {
+		res /= c;
+	}
+	return res.toUnsignedLongLong();
+}
 
 bool isSuiteToBrookRaiserChovla(char* seq, int length) 
 {
@@ -268,4 +269,19 @@ void writeSeq2FileState(char* seq, int length, string filename, char* state)
 	}
 	myfile << endl;
 	myfile.close();
+}
+
+unsigned long long int ipow(int base, int exp)
+{
+	unsigned long long int result = 1ULL;
+	while (exp)
+	{
+		if (exp & 1)
+		{
+			result *= (unsigned long long int)base;
+		}
+		exp >>= 1;
+		base *= base;
+	}
+	return result;
 }

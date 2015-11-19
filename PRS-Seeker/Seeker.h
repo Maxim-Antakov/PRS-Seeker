@@ -41,5 +41,6 @@ private:
 	void writeTEMPNum(unsigned long long int num);
 
 	void writeSeq2File();
+	void writeSeq2File(std::string message);
 };
 
