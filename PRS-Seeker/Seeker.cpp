@@ -40,7 +40,7 @@ void Seeker::Start()
 	{
 		case Mode::CONVERTIONS:
 		{
-			ss << "TP_List" << _v << "_" << _kp << "_" << _km 
+			ss << "TP_List_" << _v << "_" << _kp << "_" << _km 
 				<< "_C_(" << _initNum <<"_"<<_finishNum <<").txt";
 			_fileName = ss.str();
 
@@ -49,7 +49,7 @@ void Seeker::Start()
 		}
 		case Mode::PERMUTATIONS:
 		{
-			ss << "TP_List" << _v << "_" << _kp << "_" << _km
+			ss << "TP_List_" << _v << "_" << _kp << "_" << _km
 				<< "_P.txt" ;
 			_fileName = ss.str();
 
@@ -106,9 +106,11 @@ void Seeker::seekPermutations()
 void Seeker::seekConvertions()
 {
 	unsigned long long int st, fi, i;
-	st = stoull(_initNum, 0, 10);
-	fi = stoull(_initNum, 0, 10);
+	std::string::size_type sz = 0;
 
+	st = stoull(_initNum, &sz, 0);
+	fi = stoull(_finishNum, &sz, 0);
+	cout << "Begin looking in diapasone: " << st << " to " << fi << endl;
 	double duration, start = clock();
 
 	for (i = st; i < fi; i++)
@@ -119,7 +121,7 @@ void Seeker::seekConvertions()
 		{
 			cout << "Done: " << i-st << endl;
 			start = clock();
-			writeTEMP();
+			writeTEMPNum(i);
 			printSeq(_sequence, _v, "tmp");
 		}
 		if (isSuiteToBrookRaiserChovla(_sequence, _v))
